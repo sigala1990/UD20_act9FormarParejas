@@ -47,14 +47,6 @@ public class Frame extends JFrame {
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
-		
-		JToggleButton tglbtnNewToggleButton = new JToggleButton("New toggle button");
-		tglbtnNewToggleButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-			}
-		});
-		tglbtnNewToggleButton.setBounds(92, 88, 121, 23);
-		contentPane.add(tglbtnNewToggleButton);
 
 		list = CrearListaTB(); // crea 16 tooglebuttons
 		mostrarToggleButton();
