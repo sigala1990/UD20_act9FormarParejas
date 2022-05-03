@@ -19,7 +19,10 @@ public class Frame extends JFrame {
 	private JPanel contentPane;
 	private List<JToggleButton> list;
 	private List<Color> listColors = new ArrayList<Color>();
+	private List<Integer> listPosition = new ArrayList<Integer>();
 	private Hashtable htable;
+	private int position1, position2;
+	private int contadorTgBtnSeleccionado;
 	/**
 	 * Launch the application.
 	 */
@@ -69,7 +72,8 @@ public class Frame extends JFrame {
 			}
 			tgbtn.setSelected(true);
 			tgbtn.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent arg0) {
+				public void actionPerformed(ActionEvent arg0) {		
+				
 					mostrar2unicosToggleButton();
 				}
 			});
@@ -139,25 +143,90 @@ public class Frame extends JFrame {
 		return (int) (Math.random() * (max - min) + min);
 	}
 	
-	public void mostrar2unicosToggleButton() {
-		int contadorTgBtnSeleccionado = 0;
+	public void mostrar2unicosToggleButton() { //FUNCIONALIDAD MOSTRAR 2 Cartas A la vez
+		contadorTgBtnSeleccionado = 0;
+		position1 = 999;
+		position2= 0;
 		for (int i = 0; i < list.size(); i++) {
 			
-			if(!list.get(i).isSelected()) {
-				contadorTgBtnSeleccionado++;
+			if(!list.get(i).isSelected()) {//comprueba la lista i mira cuantos han sido pulsados
+				contadorTgBtnSeleccionado++;//contador de botones pulsados
 			}
-			
-			if(contadorTgBtnSeleccionado >2) {
-				intentoFallido();
-				contadorTgBtnSeleccionado=0;
+			if(contadorTgBtnSeleccionado == 2) {
+				verificar2posiciones();			
+				listPosition.add(position1);
+				listPosition.add(position2);
 			}
+			if(contadorTgBtnSeleccionado == 3) {
+				//verificar2posiciones();
+				
+				unSelectLastPosition();
+				mostrarAllSelects();
+				verificarSiSonIguales();
+				//intento(); //voltea todas las cartas de la lista
+				contadorTgBtnSeleccionado=0;//reinicio de contador
+			}
+		}
+	}
+
+	
+	public void verificarSiSonIguales() {
+	
+		if(list.get(listPosition.get(0)).getBackground().toString().equals(list.get(listPosition.get(1)).getBackground().toString())){
 		
+			list.get(listPosition.get(0)).setVisible(false);
+			list.get(listPosition.get(1)).setVisible(false);
+			list.remove(listPosition.get(0));
+			list.remove(listPosition.get(1)-1);//borramos 1 poscion ya que localizadoTgBtn1 sera la posicion borrada enfrente de localizadoTgBtn2
+		}else {
+			intento(listPosition.get(0), listPosition.get(1));
+		}
+		listPosition.clear();
+	}
+	public void verificar2posiciones() {//modifica el valor de position1 position2 
+		for (int i = 0; i < list.size(); i++) {
+			if(!list.get(i).isSelected() && position1 == 999) {
+				position1 = i;
+			}else if(!list.get(i).isSelected() && position1 != 999 && position2 ==0) {
+				position2 = i;
+			}
+		}
+	}
+	public void unSelectLastPosition() {
+		for (int i = 0; i < list.size(); i++) {
+			if(!list.get(i).isSelected()) {//si es false
+				if(i != (listPosition.get(0)) && i != listPosition.get(1)) {
+					list.get(i).setSelected(true);
+				}
+			}
 		}
 	}
 	
-	public void intentoFallido() {
-		for (int i = 0; i < list.size(); i++) {
-			list.get(i).setSelected(true);
-		}
+	public void intento(int num1, int num2) {		
+	
+		list.get(num1).setSelected(true);
+		list.get(num2).setSelected(true);
+	}
+	public void mostrarAllSelects() {
+		////mostrar Select
+		int count = 0;
+		System.out.println("\n");
+		for (int j = 0; j < list.size(); j++) {
+			
+			if(count == 4) {
+				System.out.println("\n");
+				count = 0;
+			}
+			if(list.get(j).isSelected()) {
+				System.out.print("\tO");
+			}else {
+				System.out.print("\tX");
+			}
+			//System.out.print("\t" + j + list.get(j).isSelected());
+			count++;
+		
+		}	
+		System.out.println("\n");
+		///mostrar select
 	}
 }
