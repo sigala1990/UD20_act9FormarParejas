@@ -11,6 +11,8 @@ import javax.swing.JPanel;
 import javax.swing.JToggleButton;
 import javax.swing.border.EmptyBorder;
 import javax.swing.text.AttributeSet.ColorAttribute;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class Frame extends JFrame {
 
@@ -45,6 +47,14 @@ public class Frame extends JFrame {
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
+		
+		JToggleButton tglbtnNewToggleButton = new JToggleButton("New toggle button");
+		tglbtnNewToggleButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+			}
+		});
+		tglbtnNewToggleButton.setBounds(92, 88, 121, 23);
+		contentPane.add(tglbtnNewToggleButton);
 
 		list = CrearListaTB(); // crea 16 tooglebuttons
 		mostrarToggleButton();
@@ -66,6 +76,11 @@ public class Frame extends JFrame {
 				}
 			}
 			tgbtn.setSelected(true);
+			tgbtn.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent arg0) {
+					mostrar2unicosToggleButton();
+				}
+			});
 			listColors.add(color);
 			tgbtn.setBackground(color);
 			list.add(tgbtn);
@@ -91,7 +106,7 @@ public class Frame extends JFrame {
 
 	}
 
-	public Color randomColor() {                                                                                                                                                                                                                                                                                                                                                                                                                                          
+	public Color randomColor() {                                                                                                                                                                                                                                                                                                                                                                                                                                     
 		
 		switch (numRandom(0, 8)) {
 		case 1:
@@ -130,5 +145,27 @@ public class Frame extends JFrame {
 	
 	public static int numRandom(int min, int max) { // metodo devuelve num random
 		return (int) (Math.random() * (max - min) + min);
+	}
+	
+	public void mostrar2unicosToggleButton() {
+		int contadorTgBtnSeleccionado = 0;
+		for (int i = 0; i < list.size(); i++) {
+			
+			if(!list.get(i).isSelected()) {
+				contadorTgBtnSeleccionado++;
+			}
+			
+			if(contadorTgBtnSeleccionado >2) {
+				intentoFallido();
+				contadorTgBtnSeleccionado=0;
+			}
+		
+		}
+	}
+	
+	public void intentoFallido() {
+		for (int i = 0; i < list.size(); i++) {
+			list.get(i).setSelected(true);
+		}
 	}
 }
