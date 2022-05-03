@@ -26,9 +26,6 @@ public class Frame extends JFrame {
 	private int contadorBotonesPulsados;
 	private int controlPrimerIntento = 0;
 
-	/**
-	 * Launch the application.
-	 */
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
@@ -42,9 +39,6 @@ public class Frame extends JFrame {
 		});
 	}
 
-	/**
-	 * Create the frame.
-	 */
 	public Frame() {
 		setTitle("Juego de formar parejas");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -53,28 +47,6 @@ public class Frame extends JFrame {
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
-
-		JButton btnNewButton = new JButton("lista");
-		btnNewButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				for (int i = 0; i < list.size(); i++) {
-						System.out.println(list.get(i).getName() + " " + list.get(i).isSelected());				
-				}
-				System.out.println("Tamaño list: " + list.size());
-
-			}
-		});
-		btnNewButton.setBounds(85, 475, 89, 23);
-		contentPane.add(btnNewButton);
-
-		JButton btnNewButton_1 = new JButton("getpositions");
-		btnNewButton_1.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				System.out.println("Lista position \n0 --> " + listPosition.get(0) + "\n 1--> " + listPosition.get(1));
-			}
-		});
-		btnNewButton_1.setBounds(253, 475, 89, 23);
-		contentPane.add(btnNewButton_1);
 
 		list = CrearListaTB(); // crea 16 tooglebuttons
 		mostrarToggleButton();
@@ -85,39 +57,33 @@ public class Frame extends JFrame {
 		List<JToggleButton> list = new ArrayList<JToggleButton>();
 		Color color = null;
 		for (int i = 0; i < 16; i++) {
-			JToggleButton tgbtn = new JToggleButton("" + i);
+			JToggleButton tgbtn = new JToggleButton();
 			tgbtn.setName("" + i);
-
 			boolean colorNoRepetido = true;
-
-			while (colorNoRepetido) {
+			while (colorNoRepetido) { //while que repetira randomColor hasta que coja un color que no este repetido mas de 2 veces
 				color = randomColor();
 				if (controlColorRepetido(color)) {
 					colorNoRepetido = false;
 				}
 			}
-			tgbtn.setSelected(true);
-			tgbtn.addActionListener(new ActionListener() {
+			tgbtn.setSelected(true); //gira cada carta(togglebuttons)creada del reves
+			tgbtn.addActionListener(new ActionListener() {//accion que se realiza al pulsar el boton
 				public void actionPerformed(ActionEvent arg0) {
-					mostrarAllSelects();
-					//System.out.println(controlPrimerIntento);
-					if (controlPrimerIntento == 2) {
+					if (controlPrimerIntento == 2) {//solo se debe ejecutar cuando tengamos 2 togglebuttons seleccionados
 						verificarSiSonIguales();
 						controlPrimerIntento = 0;
-					} else {
-						// controlPrimerIntento++;
 					}
-					pulsando2ToggleButon();
+					pulsando2ToggleButon();//metodo que pasa todos los togglebuttons al ser pulsado, donde se verificara cuantos botones estan pulsados y se comprueba su color
 				}
 			});
-			listColors.add(color);
-			tgbtn.setBackground(color);
-			list.add(tgbtn);
+			listColors.add(color); // se añade el color a una lista llamada "listColors" para tener informacion de cuales estan siendo usados y cuantos.
+			tgbtn.setBackground(color); //añadir el colorRandom del while anterior
+			list.add(tgbtn);// creacion del boton realizada dentro de una posicion de la lista llamada "list"
 		}
 		return list;
 	}
 
-	private boolean controlColorRepetido(Color randomColor) {
+	private boolean controlColorRepetido(Color randomColor) {//metodo que devuelve boolean dependiendo si se ha usado el colorRandom 
 		int contadorColorRepetido = 0;
 		for (int i = 0; i < listColors.size(); i++) {
 			if (listColors.get(i) == (randomColor)) {
@@ -143,30 +109,29 @@ public class Frame extends JFrame {
 			if (!list.get(i).isSelected()) {// comprueba la lista i mira cuantos han sido pulsados
 				contadorBotonesPulsados++;// contador de botones pulsados
 			}
-			if (contadorBotonesPulsados == 2) {
-				verificar2posiciones();
+			if (contadorBotonesPulsados == 2) {// cuando han sido pulsado2 botones procede a verificarlos y guardar cuales han sido los pulsados
+				verificar2posiciones(); //guarda posiciones pulsadas
 				listPosition.add(position1);
 				listPosition.add(position2);
-				controlPrimerIntento = 2;
+				controlPrimerIntento = 2; //control que se verifica al action.SetListener del boton, para poder ejecutar el metodo "verificarSiSonIguales"
 				contadorBotonesPulsados = 0;// reinicio de contador
 			}
 		}
 	}
 
-	public void verificarSiSonIguales() {
+	public void verificarSiSonIguales() {//checkea si son el mismo color 
 
 		if (list.get(listPosition.get(0)).getBackground().toString()
 				.equals(list.get(listPosition.get(1)).getBackground().toString())) {
-
+			//ponemos los botones invisibles
 			list.get(listPosition.get(0)).setVisible(false);
 			list.get(listPosition.get(1)).setVisible(false);
-
+			
+			//eliminamos la posicion en la lista de los botones, ya que no nos es necesario
 			int pos1 = listPosition.get(0);
 			int pos2 = listPosition.get(1);
-			
 			list.remove(pos1);
-			list.remove(pos2-1);// borramos 1 poscion ya que localizadoTgBtn1 sera la posicion borrada
-													// enfrente de localizadoTgBtn2
+			list.remove(pos2-1);// borramos 1 poscion ya que pos1 sera la posicion borrada enfrente de pos2
 		}
 		intento();
 		listPosition.clear();
@@ -174,41 +139,22 @@ public class Frame extends JFrame {
 
 	public void verificar2posiciones() {// modifica el valor de position1 position2
 		for (int i = 0; i < list.size(); i++) {
-			if (!list.get(i).isSelected() && position1 == 999) {
+			if (!list.get(i).isSelected() && position1 == 999) {//saca el valor del primer boton seleccionado
 				position1 = i;
-			} else if (!list.get(i).isSelected() && position1 != 999 && position2 == 0) {
+			} else if (!list.get(i).isSelected() && position1 != 999 && position2 == 0) {//saca el valor del segundo boton
 				position2 = i;
 			}
 		}
 	}
 
-	public void intento() {
+	public void intento() {//al terminar cada intento de pulsar 2 botones, recorremos toda la lista para ponerlos sin color de nuevo
 
 		for (int i = 0; i < list.size(); i++) {
 			list.get(i).setSelected(true);
 		}
 	}
 
-	public void mostrarAllSelects() {
-		//// mostrar Select
-		int count = 0;
-		System.out.println("\n");
-		for (int j = 0; j < list.size(); j++) {
-
-			/*
-			 * if(count == 4) { System.out.println("\n"); count = 0; }
-			 * if(list.get(j).isSelected()) { System.out.print("\tO"); }else {
-			 * System.out.print("\tX"); }
-			 */
-			System.out.print("\t" + j + list.get(j).isSelected());
-			count++;
-
-		}
-		System.out.println("\n");
-		/// mostrar select
-	}
-
-	public void mostrarToggleButton() {
+	public void mostrarToggleButton() {//da valor a las posiciones de los toglebuton para que tengan forma de cuadrado final
 		int contador = 0;
 		int y = 25;
 		int x = 80;
@@ -226,7 +172,7 @@ public class Frame extends JFrame {
 
 	}
 
-	public Color randomColor() {
+	public Color randomColor() { //escogera un color aleatorio
 
 		switch (numRandom(0, 8)) {
 		case 1:
