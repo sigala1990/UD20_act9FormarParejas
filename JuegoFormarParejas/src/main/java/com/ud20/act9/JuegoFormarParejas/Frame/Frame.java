@@ -1,17 +1,23 @@
 package com.ud20.act9.JuegoFormarParejas.Frame;
 
-import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.EventQueue;
+import java.util.ArrayList;
+import java.util.Hashtable;
+import java.util.List;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
 import javax.swing.JToggleButton;
+import javax.swing.border.EmptyBorder;
+import javax.swing.text.AttributeSet.ColorAttribute;
 
 public class Frame extends JFrame {
 
 	private JPanel contentPane;
-
+	private List<JToggleButton> list;
+	private List<Color> listColors = new ArrayList<Color>();
+	private Hashtable htable;
 	/**
 	 * Launch the application.
 	 */
@@ -39,69 +45,90 @@ public class Frame extends JFrame {
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
+
+		list = CrearListaTB(); // crea 16 tooglebuttons
+		mostrarToggleButton();
+
+	}
+
+	public List<JToggleButton> CrearListaTB() {
+		List<JToggleButton> list = new ArrayList<JToggleButton>();
+		Color color = null;
+		for (int i = 0; i < 16; i++) {
+			JToggleButton tgbtn = new JToggleButton("");
 		
-		JToggleButton tglbtnNewToggleButton = new JToggleButton("New toggle button");
-		tglbtnNewToggleButton.setBounds(83, 25, 100, 100);
-		contentPane.add(tglbtnNewToggleButton);
+			boolean colorNoRepetido = true;
+			
+			while(colorNoRepetido) {
+				color = randomColor();
+				if(controlColorRepetido(color)) {
+					colorNoRepetido = false;
+				}
+			}
+			tgbtn.setSelected(true);
+			listColors.add(color);
+			tgbtn.setBackground(color);
+			list.add(tgbtn);
+		}
+		return list;
+	}
+
+	public void mostrarToggleButton() {
+		int contador = 0;
+		int y = 25;
+		int x = 80;
+		for (int i = 0; i < list.size(); i++) {
+			if (contador > 3) {
+				contador = 0;
+				y = y + 101;
+				x = 80;
+			}
+			list.get(i).setBounds(x, y, 100, 100);
+			contador++;
+			x = x + 101;
+			contentPane.add(list.get(i));
+		}
+
+	}
+
+	public Color randomColor() {                                                                                                                                                                                                                                                                                                                                                                                                                                          
 		
-		JToggleButton tglbtnNewToggleButton_1 = new JToggleButton("New toggle button");
-		tglbtnNewToggleButton_1.setBounds(184, 25, 100, 100);
-		contentPane.add(tglbtnNewToggleButton_1);
-		
-		JToggleButton tglbtnNewToggleButton_1_1 = new JToggleButton("New toggle button");
-		tglbtnNewToggleButton_1_1.setBounds(286, 25, 100, 100);
-		contentPane.add(tglbtnNewToggleButton_1_1);
-		
-		JToggleButton tglbtnNewToggleButton_1_2 = new JToggleButton("New toggle button");
-		tglbtnNewToggleButton_1_2.setBounds(388, 25, 100, 100);
-		contentPane.add(tglbtnNewToggleButton_1_2);
-		
-		JToggleButton tglbtnNewToggleButton_1_3 = new JToggleButton("New toggle button");
-		tglbtnNewToggleButton_1_3.setBounds(83, 127, 100, 100);
-		contentPane.add(tglbtnNewToggleButton_1_3);
-		
-		JToggleButton tglbtnNewToggleButton_1_4 = new JToggleButton("New toggle button");
-		tglbtnNewToggleButton_1_4.setBounds(184, 127, 100, 100);
-		contentPane.add(tglbtnNewToggleButton_1_4);
-		
-		JToggleButton tglbtnNewToggleButton_1_5 = new JToggleButton("New toggle button");
-		tglbtnNewToggleButton_1_5.setBounds(286, 127, 100, 100);
-		contentPane.add(tglbtnNewToggleButton_1_5);
-		
-		JToggleButton tglbtnNewToggleButton_1_6 = new JToggleButton("New toggle button");
-		tglbtnNewToggleButton_1_6.setBounds(388, 127, 100, 100);
-		contentPane.add(tglbtnNewToggleButton_1_6);
-		
-		JToggleButton tglbtnNewToggleButton_1_6_1 = new JToggleButton("New toggle button");
-		tglbtnNewToggleButton_1_6_1.setBounds(83, 229, 100, 100);
-		contentPane.add(tglbtnNewToggleButton_1_6_1);
-		
-		JToggleButton tglbtnNewToggleButton_1_6_2 = new JToggleButton("New toggle button");
-		tglbtnNewToggleButton_1_6_2.setBounds(184, 229, 100, 100);
-		contentPane.add(tglbtnNewToggleButton_1_6_2);
-		
-		JToggleButton tglbtnNewToggleButton_1_6_3 = new JToggleButton("New toggle button");
-		tglbtnNewToggleButton_1_6_3.setBounds(286, 229, 100, 100);
-		contentPane.add(tglbtnNewToggleButton_1_6_3);
-		
-		JToggleButton tglbtnNewToggleButton_1_6_4 = new JToggleButton("New toggle button");
-		tglbtnNewToggleButton_1_6_4.setBounds(388, 229, 100, 100);
-		contentPane.add(tglbtnNewToggleButton_1_6_4);
-		
-		JToggleButton tglbtnNewToggleButton_1_6_5 = new JToggleButton("New toggle button");
-		tglbtnNewToggleButton_1_6_5.setBounds(83, 331, 100, 100);
-		contentPane.add(tglbtnNewToggleButton_1_6_5);
-		
-		JToggleButton tglbtnNewToggleButton_1_6_6 = new JToggleButton("New toggle button");
-		tglbtnNewToggleButton_1_6_6.setBounds(184, 331, 100, 100);
-		contentPane.add(tglbtnNewToggleButton_1_6_6);
-		
-		JToggleButton tglbtnNewToggleButton_1_6_7 = new JToggleButton("New toggle button");
-		tglbtnNewToggleButton_1_6_7.setBounds(286, 331, 100, 100);
-		contentPane.add(tglbtnNewToggleButton_1_6_7);
-		
-		JToggleButton tglbtnNewToggleButton_1_6_8 = new JToggleButton("New toggle button");
-		tglbtnNewToggleButton_1_6_8.setBounds(388, 331, 100, 100);
-		contentPane.add(tglbtnNewToggleButton_1_6_8);
+		switch (numRandom(0, 8)) {
+		case 1:
+			return Color.black;
+		case 2:
+			return Color.white;
+		case 3:
+			return Color.yellow;
+		case 4:
+			return Color.blue;
+		case 5:
+			return Color.red;
+		case 6:
+			return Color.green;
+		case 7:
+			return Color.pink;
+		case 8:
+			return Color.cyan;
+		default:
+			return null;
+		}
+	}
+	
+	private boolean controlColorRepetido(Color randomColor) {
+		int contadorColorRepetido = 0;
+		for (int i = 0; i < listColors.size(); i++) {
+			if(listColors.get(i) == (randomColor)) {
+				contadorColorRepetido++;
+			}
+		}
+		if(contadorColorRepetido >=2) {// color repetido mas de 2 veces, vamos a seguir buscando
+			return false;
+		}return true;
+	}
+	
+	
+	public static int numRandom(int min, int max) { // metodo devuelve num random
+		return (int) (Math.random() * (max - min) + min);
 	}
 }
