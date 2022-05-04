@@ -7,15 +7,17 @@ import java.util.Iterator;
 import java.util.List;
 
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JToggleButton;
 import javax.swing.border.EmptyBorder;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.ImageIcon;
+import javax.swing.JLabel;
 
 @SuppressWarnings("serial")
-public class Frame extends JFrame {
+public class Frame extends JFrame  {
 
 	private JPanel contentPane;
 	private List<JToggleButton> list_toggle;
@@ -24,6 +26,8 @@ public class Frame extends JFrame {
 	private int position1, position2;
 	private int contadorBotonesPulsados;
 	private int controlPrimerIntento = 0;
+	private int contadorIntentos = 0;
+	private JLabel labelContador;
 
 	private List<ImageIcon> list_image_put = new ArrayList<ImageIcon>();
 	Hashtable<ImageIcon, Integer> hash_imagenes_puestas = hashImages();
@@ -59,6 +63,10 @@ public class Frame extends JFrame {
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
+		
+		labelContador = new JLabel("Intentos: 0");
+		labelContador.setBounds(174, 469, 150, 19);
+		contentPane.add(labelContador);
 
 		list_toggle = CrearListaTB(); // crea 16 tooglebuttons
 		mostrarToggleButton();
@@ -224,13 +232,20 @@ public class Frame extends JFrame {
 		}
 	}
 
-	public void intento() {// al terminar cada intento de pulsar 2 botones, recorremos toda la lista para
-							// ponerlos sin color de nuevo
+	public void intento() {/*
+							 * al terminar cada intento de pulsar 2 botones, recorremos toda la lista para
+							 * ponerlos sin imagen de nuevo
+							 */
 
 		for (int i = 0; i < list_toggle.size(); i++) {
-			list_toggle.get(i).setSelected(true); // Ponemos todos los botones que quedan girados (color por defecot el
-													// azul)
+			list_toggle.get(i)
+					.setSelected(true); /*
+										 * Ponemos todos los botones que quedan girados (color por defecto el azul)
+										 */
 		}
+
+		contadorIntentos++; //Suma los intentos
+		labelContador.setText("Intentos: "+contadorIntentos); //Muestra en una etiqueta el nº de intentos
 	}
 
 	public void mostrarToggleButton() {// da valor a las posiciones de los toglebuton para que tengan forma de cuadrado
@@ -277,5 +292,4 @@ public class Frame extends JFrame {
 			return null;
 		}
 	}
-
 }
