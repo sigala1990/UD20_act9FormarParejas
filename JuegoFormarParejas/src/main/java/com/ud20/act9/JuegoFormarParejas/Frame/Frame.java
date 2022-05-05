@@ -65,7 +65,7 @@ public class Frame extends JFrame  {
 		contentPane.setLayout(null);
 		
 		labelContador = new JLabel("Intentos: 0");
-		labelContador.setBounds(174, 469, 150, 19);
+		labelContador.setBounds(174, 469, 170, 19);
 		contentPane.add(labelContador);
 
 		list_toggle = CrearListaTB(); // crea 16 tooglebuttons
@@ -202,7 +202,7 @@ public class Frame extends JFrame  {
 		}
 	}
 
-	public void verificarSiSonIguales() {// checkea si son el mismo color
+	public void verificarSiSonIguales() {// checkea si son la misma imagen
 
 		if (list_image_inserted.get(position1) == list_image_inserted.get(position2)) {
 			list_toggle.get(listPosition.get(0)).setVisible(false);
@@ -215,6 +215,12 @@ public class Frame extends JFrame  {
 			list_image_inserted.remove(pos1);
 			list_toggle.remove(pos2 - 1);// borramos 1 poscion ya que pos1 sera la posicion borrada enfrente de pos2
 			list_image_inserted.remove(pos2 - 1);
+			
+			//MENSAJE QUE SALTARÁ CUANDO SE HAYA COMPLETADO EL JUEGO
+			if(list_toggle.size() == 0) {
+			labelContador.setText("¡Enhorabuena! Completado");
+			JOptionPane.showMessageDialog(null, "¡Enhorabuena! Completado");
+			}		
 		}
 
 		intento();
