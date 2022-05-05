@@ -218,8 +218,9 @@ public class Frame extends JFrame  {
 			
 			//MENSAJE QUE SALTARÁ CUANDO SE HAYA COMPLETADO EL JUEGO
 			if(list_toggle.size() == 0) {
-			labelContador.setText("¡Enhorabuena! Completado");
-			JOptionPane.showMessageDialog(null, "¡Enhorabuena! Completado");
+			labelContador.setText("Juego finalizado");
+			JOptionPane.showMessageDialog(null, "¡Enhorabuena! Completado con "+contadorIntentos+" intentos");
+			labelContador.setVisible(false);
 			}		
 		}
 
